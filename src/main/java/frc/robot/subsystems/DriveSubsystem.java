@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructPublisher;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.revrobotics.spark.*;
@@ -78,6 +80,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   private final Field2d field = new Field2d();
 
+  private StructPublisher<Pose2d> posePublisher;
+
   /* ---------------- Constructor ---------------- */
 
   public DriveSubsystem() {
@@ -101,6 +105,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     Shuffleboard.getTab("Default")
         .add("Field", field);
+
+    posePublisher = NetworkTableInstance.getDefault().getStructTopic("RobotPose", Pose2d.struct).publish();
   }
 
   /* ---------------- Pose & Odometry ---------------- */
@@ -172,6 +178,7 @@ public class DriveSubsystem extends SubsystemBase {
         sim.getRightPositionMeters()
     );
 
+    posePublisher.set(getPose());
     field.setRobotPose(getPose());
   }
 
@@ -198,8 +205,8 @@ public class DriveSubsystem extends SubsystemBase {
             ? -MathUtil.angleModulus(target.getRotation().getRadians() - robotHeading)
             : -MathUtil.angleModulus(
                   Math.atan2(
-                      Constants.kField.kFieldMiddle.getY() - current.getY(),
-                      Constants.kField.kFieldMiddle.getX() - current.getX()
+                      Constants.kField.kHubLocation.getY() - current.getY(),
+                      Constants.kField.kHubLocation.getX() - current.getX()
                   ) - robotHeading
               );
 

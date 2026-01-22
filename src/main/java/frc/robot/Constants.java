@@ -46,7 +46,10 @@ public final class Constants {
 
   public static final class kField {
     public static final Pose2d kZeroZero = new Pose2d(0, 0, new Rotation2d());
-    public static final Pose2d kFieldMiddle = new Pose2d(4.5, 4.0, new Rotation2d());
+    public static final Pose2d kHubLocation = new Pose2d(4.5, 4.0, new Rotation2d());
+
+    public static final Pose2d kShootPos   = new Pose2d(3.0, 4.0, new Rotation2d());
+
     public static final Pose2d kCoralGet = new Pose2d(1.1, 7.1, new Rotation2d());
 
     public static final Pose2d kLeftDown  = new Pose2d(3.7, 2.7, new Rotation2d());
