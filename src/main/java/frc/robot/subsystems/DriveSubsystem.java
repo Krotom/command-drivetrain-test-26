@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -85,6 +86,9 @@ public class DriveSubsystem extends SubsystemBase {
   /* ---------------- Constructor ---------------- */
 
   public DriveSubsystem() {
+    // Register the subsystem
+    CommandScheduler.getInstance().registerSubsystem(this);
+
     SparkMaxConfig follower = new SparkMaxConfig();
     gyro.getGravityVectorZ();
     follower.follow(leftLeader);
@@ -141,21 +145,16 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void driveRobotRelative(ChassisSpeeds speeds) {
-    var wheelSpeeds = kinematics.toWheelSpeeds(speeds);
-    wheelSpeeds.desaturate(Constants.kDrive.kMaxSpeedMetersPerSecond);
+    DifferentialDriveWheelSpeeds wheelSpeeds =
+        kinematics.toWheelSpeeds(speeds);
 
-    double leftVolts =
-        wheelSpeeds.leftMetersPerSecond
-            / Constants.kDrive.kMaxSpeedMetersPerSecond
-            * RobotController.getBatteryVoltage();
+    double maxSpeed = Constants.kDrive.kMaxSpeedMetersPerSecond;
 
-    double rightVolts =
-        wheelSpeeds.rightMetersPerSecond
-            / Constants.kDrive.kMaxSpeedMetersPerSecond
-            * RobotController.getBatteryVoltage();
+    double left = wheelSpeeds.leftMetersPerSecond / maxSpeed;
+    double right = wheelSpeeds.rightMetersPerSecond / maxSpeed;
 
-    leftLeader.setVoltage(leftVolts);
-    rightLeader.setVoltage(rightVolts);
+    leftLeader.set(left);
+    rightLeader.set(right);
   }
 
   /* ---------------- Manual Driving ---------------- */
@@ -185,6 +184,10 @@ public class DriveSubsystem extends SubsystemBase {
   boolean aligningFinalHeading = false;
   double distance;
   double finalHeadingError;
+
+  public void goToTarget(Pose2d target) {
+    goToTarget(target, true);
+  }
 
   public void goToTarget(Pose2d target, boolean angleFromTarget) {
     Pose2d current = getPose();

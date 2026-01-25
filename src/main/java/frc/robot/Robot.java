@@ -22,10 +22,10 @@ public class Robot extends TimedRobot {
     var auto = container.getAutonomousCommand();
     if (auto != null) {
       CommandScheduler.getInstance().schedule(auto);
-    } else {
+    }/*else {
       container.setAutonomousCommand();
       CommandScheduler.getInstance().schedule(container.getAutonomousCommand());
-    }
+    }*/
   }
 
   @Override

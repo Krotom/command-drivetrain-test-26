@@ -29,19 +29,19 @@ public final class Constants {
     public static final double kDriveI = 0.0;
     public static final double kDriveD = 0.0;
 
-    public static final double kDistanceTolerance = 0.17;
-    public static final double kAngleToleranceDeg = 1.0;
+    public static final double kDistanceTolerance = 0.15;
+    public static final double kAngleToleranceDeg = 1.5;
     public static final int kArrivedAtTargetCount = 3;
 
-    public static final double kMaxSpeedMetersPerSecond = 3.0;
+    public static final double kMaxSpeedMetersPerSecond = 1.0;
   }
 
   public static final class kDriveSim {
     public static final double kGearing = 10.71;
-    public static final double kJkgMetersSq = 7.5;
-    public static final double kMassKg = 20.0;
-    public static final double kWheelRadius = Units.inchesToMeters(3);
-    public static final double kTrackWidth = Units.inchesToMeters(28);
+    public static final double kMassKg = 50.0;
+    public static final double kJkgMetersSq = 12.0;
+    public static final double kTrackWidth = Units.inchesToMeters(30);
+    public static final double kWheelRadius = Units.inchesToMeters(3.5);
   }
 
   public static final class kField {
