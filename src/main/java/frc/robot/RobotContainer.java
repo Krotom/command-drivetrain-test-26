@@ -26,7 +26,7 @@ public class RobotContainer {
     private final XboxController m_driverController =
         new XboxController(Constants.kOperatorConstants.kDriverControllerPort);
 
-    private final SendableChooser<Integer> m_driveMode = new SendableChooser<>(); // TODO This will be removed in 2027
+    private final SendableChooser<Integer> m_driveMode = new SendableChooser<>(); // TODO This will be removed in 2027, start searching for a replacement
 
     RobotConfig robotConfig;
 
